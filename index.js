@@ -4,7 +4,8 @@ const express = require("express");
 const dbConnect = require('./db/dbConnection');
 const app = express()
 const jwt = require("jsonwebtoken");
-const auth = require("./middleware/auth");
+// const auth = require("./middleware/auth");
+const { protect, adminOnly } = require("./middleware/auth");
 const Book = require("./module/booksModule");
 const bookRouter = require ('./routes/bookRouter')
 
@@ -132,7 +133,17 @@ app.get("/free-endpoint", (request, response) => {
 //   response.json({ message: "You are authorized to access me" });
 // });
 
-
+app.get("/auth-endpoint", protect, adminOnly, (req, res) => {
+  const user = req.user;
+  res.json({
+    message: "✅ You are authorized as admin",
+    user: {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+    },
+  });
+});
 
 
 const PORT = process.env.PORT || 3000;
