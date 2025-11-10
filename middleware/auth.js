@@ -26,7 +26,8 @@ const protect = async (req, res, next) => {
 
 const adminOnly = (req, res, next) => {
   console.log(req.user)
-  if (req.user && req.user.role === "admin") next();
+  console.log(req.user.role)
+  if (req.user && String(req.user.role) === "admin") next();
   else res.status(403).json({ message: "Admin access only" });
 };
 
