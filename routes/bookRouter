@@ -1,0 +1,17 @@
+const express = require ('express');
+const router = express.Router();
+const {protect, adminOnly} = require ('../middleware/auth')
+
+const {
+    addBook,
+    deleteBookById,
+    getAllBooks,
+    updateBook,
+} = require ("../controllers/bookController")
+
+router.post('/add', protect, addBook);
+router.delete('/delete/:id', protect, deleteBookById);
+router.get('/getAll', protect, adminOnly, getAllBooks);
+router.put('/update/:id', protect, updateBook);
+
+module.exports = router;
